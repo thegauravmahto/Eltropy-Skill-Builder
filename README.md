@@ -3,7 +3,8 @@
 > Mission Control for Agentic AI on the Front Office.
 > The authoring layer that turns the *App Store of banking* into reality.
 
-The PRD lives in [`docs/PRD.md`](docs/PRD.md) (also as [`docs/PRD.pdf`](docs/PRD.pdf)).
+**Live demo:** <https://skill-builder-rho.vercel.app>
+**PRD:** [`docs/PRD.md`](docs/PRD.md) · [`docs/PRD.pdf`](docs/PRD.pdf)
 
 ## What this is
 

@@ -1,65 +1,123 @@
-import Image from "next/image";
+import Link from "next/link";
+import { skills, subAgents, tools, guardrails } from "@/lib/seed";
 
 export default function Home() {
+  const published = subAgents.filter((s) => s.status === "published").length;
+  const drafts = subAgents.filter((s) => s.status === "draft").length;
+  const financialTools = tools.filter((t) => t.sideEffect === "financial").length;
+
+  const stats = [
+    { label: "Sub-agents", value: subAgents.length, sub: `${published} published, ${drafts} draft` },
+    { label: "Skills", value: skills.length, sub: `${skills.filter((s) => s.status === "published").length} published` },
+    { label: "Tools", value: tools.length, sub: `${financialTools} financial side-effect` },
+    { label: "Guardrail Sets", value: guardrails.length, sub: "scope · tool · data · behavioural · audit" },
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="px-10 py-8 max-w-6xl">
+      <div className="mb-8">
+        <div className="text-[11px] uppercase tracking-wider text-slate-500 mb-1">Mission Control</div>
+        <h1 className="text-3xl font-semibold tracking-tight">Skill Builder</h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-2 max-w-2xl text-sm leading-relaxed">
+          Authoring layer for the Eltropy Agentic AI Platform. Compose <strong>Tools</strong> into{" "}
+          <strong>Skills</strong>; bind Skills to <strong>Sub-agents</strong> with closed, controlled agency. The Main
+          Orchestrator routes member intents to the sub-agents you publish here.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-4 gap-3 mb-10">
+        {stats.map((s) => (
+          <div
+            key={s.label}
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            <div className="text-[11px] uppercase tracking-wider text-slate-500">{s.label}</div>
+            <div className="text-2xl font-semibold mt-1">{s.value}</div>
+            <div className="text-[11px] text-slate-500 mt-1">{s.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-2 gap-6">
+        <Card title="Three-layer composition">
+          <div className="font-mono text-xs space-y-1.5 text-slate-700 dark:text-slate-300">
+            <div>
+              <span className="text-violet-600 dark:text-violet-400">Sub-agent</span> ::= role + intent-routing + skill bundle + guardrail policy
+            </div>
+            <div>
+              <span className="text-indigo-600 dark:text-indigo-400">Skill</span> ::= Markdown SOP + tool calls (
+              <code>{`{{tool: …}}`}</code>)
+            </div>
+            <div>
+              <span className="text-sky-600 dark:text-sky-400">Tool</span> ::= named, schema-typed wrapper over one API
+            </div>
+          </div>
+          <div className="mt-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            One Tool wraps one API. One Skill composes 1-N Tools. One Sub-agent binds 1-N Skills within a scope (e.g.{" "}
+            <em>loans-and-payments-and-services and nothing else</em>).
+          </div>
+        </Card>
+
+        <Card title="Grading metrics">
+          <ul className="space-y-2 text-sm">
+            <li className="flex items-start gap-2">
+              <span className="text-emerald-500 mt-0.5">●</span>
+              <div>
+                <strong>Guardrails</strong>
+                <div className="text-xs text-slate-500">First-class objects. Scope, tool, data, behavioural, audit.</div>
+              </div>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-emerald-500 mt-0.5">●</span>
+              <div>
+                <strong>Usability</strong>
+                <div className="text-xs text-slate-500">Time to first published Skill &lt; 30 min for a CU AI Lead.</div>
+              </div>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-emerald-500 mt-0.5">●</span>
+              <div>
+                <strong>Affordance</strong>
+                <div className="text-xs text-slate-500">
+                  UI signals what is possible. Bounded chip-pickers, pill-rendered tool calls, persistent financial
+                  badge.
+                </div>
+              </div>
+            </li>
+          </ul>
+        </Card>
+      </div>
+
+      <div className="mt-8">
+        <Card title="Quick start">
+          <div className="grid grid-cols-3 gap-3 mt-1">
+            <QuickLink href="/sub-agents" label="Browse Sub-agents" sub="Authentication, Account Services, Loan Servicing" />
+            <QuickLink href="/skills" label="Open the Skill Editor" sub="Two-pane Markdown + pill-rendered tool calls" />
+            <QuickLink href="/test" label="Run the Test Harness" sub="Paste a member transcript, see the trace" />
+          </div>
+        </Card>
+      </div>
     </div>
+  );
+}
+
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-5">
+      <div className="text-[11px] uppercase tracking-wider text-slate-500 mb-3">{title}</div>
+      {children}
+    </div>
+  );
+}
+
+function QuickLink({ href, label, sub }: { href: string; label: string; sub: string }) {
+  return (
+    <Link
+      href={href}
+      className="block p-3 rounded-md border border-slate-200 dark:border-slate-800 hover:border-indigo-400 hover:bg-indigo-50/40 dark:hover:bg-indigo-950/20 transition"
+    >
+      <div className="text-sm font-medium">{label}</div>
+      <div className="text-[11px] text-slate-500 mt-1">{sub}</div>
+    </Link>
   );
 }

@@ -1,20 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { runTrace, sampleTranscripts } from "@/lib/trace";
 import type { Trace, TraceStep } from "@/lib/types";
+import { isHarnessLive } from "@/lib/harness";
+import { emptyTrace, runLiveTrace } from "@/lib/harnessClient";
 
 export function TestHarness() {
   const [transcript, setTranscript] = useState(sampleTranscripts[0]);
   const [authenticated, setAuthenticated] = useState(false);
+  const [memberId, setMemberId] = useState("M-1001");
   const [trace, setTrace] = useState<Trace | null>(null);
   const [running, setRunning] = useState(false);
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    setLive(isHarnessLive());
+  }, []);
 
   async function run() {
     setRunning(true);
-    // Simulate latency for affordance
-    await new Promise((r) => setTimeout(r, 400));
-    setTrace(runTrace(transcript, { authenticated }));
+    if (live) {
+      const t = emptyTrace(transcript);
+      setTrace({ ...t });
+      const started = Date.now();
+      await runLiveTrace(
+        transcript,
+        { authenticated, memberId },
+        {
+          onStep: (step) => {
+            t.steps = [...t.steps, step];
+            if (step.type === "guardrail") t.guardrailsFired = [...t.guardrailsFired, step.label];
+            if (step.type === "response") t.finalResponse = step.detail ?? "";
+            setTrace({ ...t });
+          },
+          onSummary: (s) => {
+            t.durationMs = s.durationMs;
+            if (s.finalResponse) t.finalResponse = s.finalResponse;
+            if (s.guardrailsFired.length) t.guardrailsFired = s.guardrailsFired;
+            setTrace({ ...t });
+          },
+          onError: (msg) => {
+            t.steps = [
+              ...t.steps,
+              { type: "guardrail", label: "▣ Harness error", detail: msg, blocked: true },
+            ];
+            t.durationMs = Date.now() - started;
+            setTrace({ ...t });
+          },
+        }
+      );
+    } else {
+      // Mocked path — v1 behaviour preserved
+      await new Promise((r) => setTimeout(r, 400));
+      setTrace(runTrace(transcript, { authenticated }));
+    }
     setRunning(false);
   }
 
@@ -57,6 +97,24 @@ export function TestHarness() {
           When unchecked, the behavioural guardrail will pre-route to Authentication first.
         </div>
 
+        {live && (
+          <div className="mt-3">
+            <label className="text-[10px] uppercase tracking-wider text-slate-500 block mb-1">
+              Member ID (mock fixtures)
+            </label>
+            <select
+              value={memberId}
+              onChange={(e) => setMemberId(e.target.value)}
+              className="w-full px-2 py-1.5 text-xs font-mono rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="M-1001">M-1001 · Alex Chen (L3, eligible loan)</option>
+              <option value="M-1002">M-1002 · Priya Patel (L2, mortgage)</option>
+              <option value="M-1003">M-1003 · Marcus Johnson (unauthed)</option>
+              <option value="M-1004">M-1004 · Linda Okafor (L3, recent deferral)</option>
+            </select>
+          </div>
+        )}
+
         <button
           onClick={run}
           disabled={running}
@@ -72,7 +130,18 @@ export function TestHarness() {
       {/* Trace output */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4 min-h-[400px]">
         <div className="flex items-center justify-between mb-3">
-          <div className="text-[11px] uppercase tracking-wider text-slate-500">Execution trace</div>
+          <div className="flex items-center gap-2">
+            <div className="text-[11px] uppercase tracking-wider text-slate-500">Execution trace</div>
+            <span
+              className={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-full font-medium ${
+                live
+                  ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200"
+                  : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+              }`}
+            >
+              {live ? "Live ADK" : "Mocked"}
+            </span>
+          </div>
           {trace && (
             <div className="text-[10px] text-slate-500">
               {trace.steps.length} steps · {trace.durationMs}ms · {trace.guardrailsFired.length} guardrail

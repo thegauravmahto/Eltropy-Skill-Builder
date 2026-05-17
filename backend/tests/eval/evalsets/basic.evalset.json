@@ -1,0 +1,49 @@
+{
+  "eval_set_id": "skill_builder_basic",
+  "name": "Skill Builder — Basic Flow Evaluation",
+  "description": "Starter cases for the Skill Builder harness — account balance and Skip-A-Pay. Members are pre-authenticated via session state to isolate the routing + tool-trajectory test.",
+  "eval_cases": [
+    {
+      "eval_id": "balance_authenticated_M1001",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [{ "text": "What is the available balance on my checking account A-3001?" }]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user_M1001",
+        "state": {
+          "authenticated": true,
+          "auth_level": "L3",
+          "member_id": "M-1001",
+          "audit_log": []
+        }
+      }
+    },
+    {
+      "eval_id": "skip_a_pay_L3_eligible",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [{ "text": "I want to skip my next payment on loan L-2001. Please defer it by 30 days." }]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user_M1001_L3",
+        "state": {
+          "authenticated": true,
+          "auth_level": "L3",
+          "member_id": "M-1001",
+          "audit_log": []
+        }
+      }
+    }
+  ]
+}

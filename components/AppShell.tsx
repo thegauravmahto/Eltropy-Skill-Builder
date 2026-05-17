@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { SettingsPanel } from "@/components/SettingsPanel";
+import { getApiKey, isHarnessLive } from "@/lib/harness";
 
 const NAV = [
   { href: "/", label: "Overview", icon: "▸" },
@@ -23,7 +25,19 @@ const ROLES = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const [role, setRole] = useState("fdpm");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [hasKey, setHasKey] = useState(false);
   const currentRole = ROLES.find((r) => r.id === role)!;
+  const live = isHarnessLive();
+
+  useEffect(() => {
+    function sync() {
+      setHasKey(Boolean(getApiKey()));
+    }
+    sync();
+    window.addEventListener("skill_builder.api_key_changed", sync);
+    return () => window.removeEventListener("skill_builder.api_key_changed", sync);
+  }, []);
 
   return (
     <div className="flex h-full min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
@@ -61,28 +75,52 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="px-3 py-3 border-t border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Acting as (RBAC)</div>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="w-full px-2 py-1.5 text-sm rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            {ROLES.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.label}
-              </option>
-            ))}
-          </select>
-          <div className="mt-2 flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-400">
-            <span className={`w-2 h-2 rounded-full ${currentRole.color}`} />
-            <span>Demo tenant - Brookline FCU</span>
+        <div className="px-3 py-3 border-t border-slate-200 dark:border-slate-800 space-y-3">
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Acting as (RBAC)</div>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full px-2 py-1.5 text-sm rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {ROLES.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.label}
+                </option>
+              ))}
+            </select>
+            <div className="mt-2 flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-400">
+              <span className={`w-2 h-2 rounded-full ${currentRole.color}`} />
+              <span>Demo tenant - Brookline FCU</span>
+            </div>
           </div>
+
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className="w-full flex items-center justify-between px-2 py-1.5 text-xs rounded-md border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+          >
+            <span className="flex items-center gap-1.5">
+              <span className="opacity-60">⚙</span>
+              <span>Harness · Gemini key</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <span
+                title={live ? "Live ADK backend" : "Mocked traces"}
+                className={`w-1.5 h-1.5 rounded-full ${live ? "bg-emerald-500" : "bg-slate-400"}`}
+              />
+              <span
+                title={hasKey ? "key set" : "key missing"}
+                className={`w-1.5 h-1.5 rounded-full ${hasKey ? "bg-emerald-500" : "bg-amber-500"}`}
+              />
+            </span>
+          </button>
         </div>
       </aside>
 
       {/* Main */}
       <main className="flex-1 overflow-y-auto">{children}</main>
+
+      <SettingsPanel open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   );
 }

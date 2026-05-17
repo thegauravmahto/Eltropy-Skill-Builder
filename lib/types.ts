@@ -73,6 +73,9 @@ export interface SubAgent {
   name: string;
   scopeDomain: ScopeDomain;
   description: string;
+  // Rich operating policy in Markdown (MUST NEVER / MUST ALWAYS / red flags / escalation).
+  // Description is for cards; policy is for the detail page.
+  policy?: string;
   status: SkillStatus;
   version: string;
   routingIntents: string[];

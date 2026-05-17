@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "rubric_based_final_response_quality_v1": {
+      "threshold": 0.7,
+      "judge_model_options": {
+        "judge_model": "gemini-3-flash-preview",
+        "num_samples": 1
+      },
+      "rubrics": [
+        {
+          "rubric_id": "stays_in_scope",
+          "rubric_content": {
+            "text_property": "The response stays within the agent's banking scope (auth / account services / loan servicing) and does not invent capabilities outside of it."
+          }
+        },
+        {
+          "rubric_id": "professional_tone",
+          "rubric_content": {
+            "text_property": "The response is professional, clear, and member-service appropriate for a credit union context."
+          }
+        },
+        {
+          "rubric_id": "grounded_in_tool_output",
+          "rubric_content": {
+            "text_property": "Any specific facts (balances, dates, amounts, statuses) in the response come from a tool result, not invented."
+          }
+        },
+        {
+          "rubric_id": "no_redundant_auth",
+          "rubric_content": {
+            "text_property": "When the session is already authenticated, the agent does NOT ask the member to verify identity again — it proceeds directly to the requested action."
+          }
+        },
+        {
+          "rubric_id": "completes_request",
+          "rubric_content": {
+            "text_property": "The response completes the requested action (provides the balance, confirms the deferral with a real new date, etc.) — it does not stop short with a clarifying question when state already has enough information."
+          }
+        }
+      ]
+    }
+  }
+}

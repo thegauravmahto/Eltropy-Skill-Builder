@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { getSubAgent, getSkill, getGuardrail, tools as allTools, getToolByName } from "@/lib/seed";
 import { SideEffectBadge } from "@/components/ToolCallPill";
 
@@ -49,6 +51,17 @@ export default async function SubAgentDetail({ params }: { params: Promise<{ id:
       </div>
 
       {/* Scope chip-picker (affordance: bounded picker) */}
+      {sa.policy && (
+        <Section title="Operating policy">
+          <p className="text-xs text-slate-500 mb-3">
+            The SOP for this sub-agent. Read once before publishing; this is the contract the orchestrator routes against.
+          </p>
+          <div className="markdown-body p-4 rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-sm">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{sa.policy}</ReactMarkdown>
+          </div>
+        </Section>
+      )}
+
       <Section title="Scope domain (bounded chip-picker)">
         <p className="text-xs text-slate-500 mb-3">
           The chip <em>is</em> the contract. Sub-agent refuses any intent outside the selected domain.

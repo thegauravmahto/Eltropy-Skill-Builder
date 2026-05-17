@@ -67,7 +67,7 @@ export function TestHarness() {
           value={transcript}
           onChange={(e) => setTranscript(e.target.value)}
           rows={4}
-          className="w-full font-mono text-sm p-3 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full font-mono text-sm p-3 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 outline-none focus:ring-2 focus:ring-brand-500"
         />
 
         <div className="text-[11px] uppercase tracking-wider text-slate-500 mt-4 mb-2">Sample transcripts</div>
@@ -105,7 +105,7 @@ export function TestHarness() {
             <select
               value={memberId}
               onChange={(e) => setMemberId(e.target.value)}
-              className="w-full px-2 py-1.5 text-xs font-mono rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-2 py-1.5 text-xs font-mono rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-500"
             >
               <option value="M-1001">M-1001 · Alex Chen (L3, eligible loan)</option>
               <option value="M-1002">M-1002 · Priya Patel (L2, mortgage)</option>
@@ -165,11 +165,11 @@ export function TestHarness() {
                 <TraceRow key={i} step={s} />
               ))}
             </div>
-            <div className="p-3 rounded-md bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-900 text-sm">
-              <div className="text-[10px] uppercase tracking-wider text-indigo-700 dark:text-indigo-300 mb-1">
+            <div className="p-3 rounded-md bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-900 text-sm">
+              <div className="text-[10px] uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
                 Final response to member
               </div>
-              <div className="text-indigo-900 dark:text-indigo-100">{trace.finalResponse}</div>
+              <div className="text-brand-900 dark:text-brand-100">{trace.finalResponse}</div>
             </div>
           </>
         )}
@@ -180,8 +180,8 @@ export function TestHarness() {
 
 function TraceRow({ step }: { step: TraceStep }) {
   const map: Record<TraceStep["type"], { icon: string; tone: string }> = {
-    "intent-match": { icon: "◆", tone: "text-violet-600 dark:text-violet-400" },
-    "sub-agent-invoke": { icon: "◇", tone: "text-indigo-600 dark:text-indigo-400" },
+    "intent-match": { icon: "◆", tone: "text-accent-600 dark:text-accent-400" },
+    "sub-agent-invoke": { icon: "◇", tone: "text-brand-600 dark:text-brand-400" },
     "skill-invoke": { icon: "✦", tone: "text-sky-600 dark:text-sky-400" },
     "tool-call": { icon: "⚙", tone: "text-emerald-600 dark:text-emerald-400" },
     guardrail: { icon: "▣", tone: step.blocked ? "text-rose-600 dark:text-rose-400" : "text-amber-600 dark:text-amber-400" },

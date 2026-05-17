@@ -26,7 +26,7 @@ export default function SubAgentsPage() {
             <Link
               key={sa.id}
               href={`/sub-agents/${sa.id}`}
-              className="block bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-5 hover:border-indigo-400 hover:shadow-sm transition"
+              className="block bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-5 hover:border-brand-400 hover:shadow-sm transition"
             >
               <div className="flex items-start justify-between mb-3">
                 <div>

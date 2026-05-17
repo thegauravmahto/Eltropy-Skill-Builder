@@ -66,7 +66,7 @@ export default async function SkillEditorPage({ params }: { params: Promise<{ id
           Bound by{" "}
           {bindings.map((b, i) => (
             <span key={b.id}>
-              <Link className="underline hover:text-indigo-600" href={`/sub-agents/${b.id}`}>
+              <Link className="underline hover:text-brand-600" href={`/sub-agents/${b.id}`}>
                 {b.name}
               </Link>
               {i < bindings.length - 1 ? ", " : ""}

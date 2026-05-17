@@ -108,7 +108,7 @@ export function SettingsPanel({ open, onClose }: { open: boolean; onClose: () =>
               value={keyDraft}
               onChange={(e) => setKeyDraft(e.target.value)}
               placeholder="AIza..."
-              className="w-full font-mono text-xs p-2.5 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full font-mono text-xs p-2.5 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 outline-none focus:ring-2 focus:ring-brand-500"
             />
             <div className="flex items-center justify-between mt-2">
               <label className="flex items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-400 cursor-pointer">

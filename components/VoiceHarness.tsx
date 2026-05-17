@@ -244,7 +244,7 @@ export function VoiceHarness() {
               <div
                 className={`max-w-[78%] rounded-lg px-3 py-2 text-sm ${
                   t.role === "user"
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-brand-600 text-white"
                     : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 } ${t.is_final ? "" : "italic opacity-80"}`}
               >

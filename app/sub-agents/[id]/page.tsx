@@ -72,7 +72,7 @@ export default async function SubAgentDetail({ params }: { params: Promise<{ id:
               key={d}
               className={`px-2.5 py-1 text-xs rounded-full border font-mono ${
                 d === sa.scopeDomain
-                  ? "bg-indigo-600 text-white border-indigo-600"
+                  ? "bg-brand-600 text-white border-brand-600"
                   : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 cursor-not-allowed opacity-60"
               }`}
               title={d === sa.scopeDomain ? "Current scope" : "Switch scope (disabled in demo)"}
@@ -93,7 +93,7 @@ export default async function SubAgentDetail({ params }: { params: Promise<{ id:
             <Link
               key={s.id}
               href={`/skills/${s.id}`}
-              className="flex items-center justify-between p-3 rounded-md border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition"
+              className="flex items-center justify-between p-3 rounded-md border border-slate-200 dark:border-slate-800 hover:border-brand-400 transition"
             >
               <div>
                 <div className="text-sm font-medium">{s.name}</div>

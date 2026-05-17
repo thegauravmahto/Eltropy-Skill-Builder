@@ -258,7 +258,7 @@ export function ChatHarness() {
               <div
                 className={`max-w-[78%] rounded-lg px-3 py-2 text-sm ${
                   t.role === "user"
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-brand-600 text-white"
                     : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 }`}
               >
@@ -301,7 +301,7 @@ export function ChatHarness() {
 
           {recording && (
             <div className="flex justify-end">
-              <div className="max-w-[78%] rounded-lg px-3 py-2 text-sm bg-indigo-50 dark:bg-indigo-950/40 text-indigo-900 dark:text-indigo-100 italic">
+              <div className="max-w-[78%] rounded-lg px-3 py-2 text-sm bg-brand-50 dark:bg-brand-950/40 text-brand-900 dark:text-brand-100 italic">
                 🎙 {interim || "Listening..."}
               </div>
             </div>
@@ -351,7 +351,7 @@ export function ChatHarness() {
             }}
             rows={2}
             placeholder="Type a message or hold the mic to speak..."
-            className="flex-1 text-sm p-2 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="flex-1 text-sm p-2 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 outline-none focus:ring-2 focus:ring-brand-500 resize-none"
             disabled={running}
           />
           <button

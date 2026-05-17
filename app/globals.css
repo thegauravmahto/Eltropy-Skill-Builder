@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -10,19 +10,45 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Eltropy brand — navy */
+  --color-brand-50:  #eef3fa;
+  --color-brand-100: #d8e3f2;
+  --color-brand-200: #b3c8e4;
+  --color-brand-300: #84a5d0;
+  --color-brand-400: #5783bb;
+  --color-brand-500: #356aa3;
+  --color-brand-600: #275385;
+  --color-brand-700: #1f4269;
+  --color-brand-800: #18324f;
+  --color-brand-900: #0f2543;
+  --color-brand-950: #07182d;
+
+  /* Eltropy accent — teal */
+  --color-accent-50:  #ecfdff;
+  --color-accent-100: #cef9ff;
+  --color-accent-200: #a2f0fb;
+  --color-accent-300: #67e2f1;
+  --color-accent-400: #25ccdf;
+  --color-accent-500: #0fb0c4;
+  --color-accent-600: #0d8ba3;
+  --color-accent-700: #126e84;
+  --color-accent-800: #185a6c;
+  --color-accent-900: #194b5c;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #07182d;
+    --foreground: #e2e8f0;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-feature-settings: "cv11", "ss01";
 }
 
 /* Minimal markdown styles for chat agent responses */
@@ -53,7 +79,7 @@ body {
   .markdown-body pre { background: rgba(15, 23, 42, 0.6); }
 }
 .markdown-body pre code { background: none; padding: 0; }
-.markdown-body a { color: #6366f1; text-decoration: underline; text-decoration-style: dotted; }
+.markdown-body a { color: var(--color-brand-600); text-decoration: underline; text-decoration-style: dotted; }
 .markdown-body table { border-collapse: collapse; margin: 0.4rem 0; font-size: 0.85em; }
 .markdown-body th, .markdown-body td { border: 1px solid rgba(148, 163, 184, 0.4); padding: 0.2rem 0.5rem; }
 .markdown-body th { background: rgba(148, 163, 184, 0.12); font-weight: 600; }

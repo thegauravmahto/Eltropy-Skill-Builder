@@ -38,7 +38,7 @@ export default function SkillsPage() {
                 className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/40"
               >
                 <td className="px-3 py-2.5">
-                  <Link href={`/skills/${s.id}`} className="font-medium hover:text-indigo-600">
+                  <Link href={`/skills/${s.id}`} className="font-medium hover:text-brand-600">
                     {s.name}
                   </Link>
                   <div className="text-[11px] text-slate-500">{s.description}</div>

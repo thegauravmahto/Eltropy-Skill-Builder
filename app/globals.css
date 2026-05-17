@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Only honor dark mode when an ancestor explicitly opts in with .dark.
+   Without this, Tailwind v4 follows prefers-color-scheme automatically. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
@@ -37,13 +41,6 @@
   --color-accent-900: #194b5c;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #07182d;
-    --foreground: #e2e8f0;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -74,9 +71,6 @@ body {
   border-radius: 0.4rem;
   background: rgba(15, 23, 42, 0.06);
   overflow-x: auto;
-}
-@media (prefers-color-scheme: dark) {
-  .markdown-body pre { background: rgba(15, 23, 42, 0.6); }
 }
 .markdown-body pre code { background: none; padding: 0; }
 .markdown-body a { color: var(--color-brand-600); text-decoration: underline; text-decoration-style: dotted; }
